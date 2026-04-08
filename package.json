@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "@iconify-json/material-symbols": "^1.2.30",
-    "@nuxt/devtools": "2.6.2",
+    "@nuxt/devtools": "2.7.0",
     "@nuxt/ui": "^2.21.0",
     "@pinia/nuxt": "^0.11.2",
     "@types/node": "^24.2.0",
@@ -22,5 +22,5 @@
   "dependencies": {
     "vite-plugin-vue-audiomotion": "^1.0.5"
   },
-  "packageManager": "pnpm@10.13.1"
+  "packageManager": "pnpm@10.33.0"
 }
