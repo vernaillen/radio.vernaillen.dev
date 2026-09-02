@@ -9,23 +9,23 @@ useHead({
     {
       name: 'theme-color',
       id: 'theme-color',
-      content: '#000000'
+      content: '#0a0908'
     }
   ],
   link: [
     {
       rel: 'manifest',
       key: 'webmanifest',
-      href: `/manifest.webmanifest`,
+      href: `/manifest.webmanifest`
     }
   ]
 })
 </script>
 
 <template>
-  <div>
+  <UApp>
     <VitePwaManifest />
     <NuxtPage />
     <PwaInstallPrompt />
-  </div>
+  </UApp>
 </template>

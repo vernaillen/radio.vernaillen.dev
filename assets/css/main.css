@@ -1,0 +1,115 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+/* Theme ported from vernaillen.dev so the player matches the site it is
+   embedded from: Geist/Poppins type, the gold `vernaillen` accent and the warm
+   `dusk` neutral. Site-only pieces (prose, dot pattern, card glow) are omitted. */
+
+@theme static {
+  --font-sans: 'Geist', sans-serif;
+  --font-heading: 'Poppins', sans-serif;
+  --font-mono: 'Geist Mono', monospace;
+
+  --color-primary-50: var(--ui-color-primary-50);
+  --color-primary-100: var(--ui-color-primary-100);
+  --color-primary-200: var(--ui-color-primary-200);
+  --color-primary-300: var(--ui-color-primary-300);
+  --color-primary-400: var(--ui-color-primary-400);
+  --color-primary-500: var(--ui-color-primary-500);
+  --color-primary-600: var(--ui-color-primary-600);
+  --color-primary-700: var(--ui-color-primary-700);
+  --color-primary-800: var(--ui-color-primary-800);
+  --color-primary-900: var(--ui-color-primary-900);
+  --color-primary-950: var(--ui-color-primary-950);
+
+  --color-dusk-50: #f9f8f5;
+  --color-dusk-100: #f0efea;
+  --color-dusk-200: #dfddd6;
+  --color-dusk-300: #c9c6bc;
+  --color-dusk-400: #918d82;
+  --color-dusk-500: #656158;
+  --color-dusk-600: #4a4740;
+  --color-dusk-700: #33312b;
+  --color-dusk-800: #201e1a;
+  --color-dusk-900: #131210;
+  --color-dusk-950: #0a0908;
+
+  --color-vernaillen-50: #faf9f0;
+  --color-vernaillen-100: #f5f3e1;
+  --color-vernaillen-200: #e6e2b5;
+  --color-vernaillen-300: #d6d090;
+  --color-vernaillen-400: #baaf4e;
+  --color-vernaillen-500: #9c8e1b;
+  --color-vernaillen-600: #8c7815;
+  --color-vernaillen-700: #755d0f;
+  --color-vernaillen-800: #5e4509;
+  --color-vernaillen-900: #452e06;
+  --color-vernaillen-950: #2e1b02;
+}
+
+.dark {
+  --ui-bg: var(--ui-color-neutral-950);
+  --ui-bg-muted: var(--ui-color-neutral-900);
+  --ui-bg-elevated: var(--ui-color-neutral-900);
+  --ui-bg-accented: var(--ui-color-neutral-800);
+  --ui-border: var(--ui-color-neutral-900);
+}
+
+@layer base {
+  h1, h2, h3, h4 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    line-height: 1.2;
+  }
+}
+
+:root {
+  --ui-container: var(--container-7xl);
+  --ui-radius: 0.5rem;
+
+  ::selection {
+    color: #282a30;
+    background-color: #c8c8c8;
+  }
+}
+
+.dark {
+  ::selection {
+    color: #ffffff;
+    background-color: #474747;
+  }
+}
+
+/* Fixed gradient glow behind the player — a wide, soft gradient rather than
+   blur() so it costs nothing on the GPU while the visualizer animates. */
+body::after {
+  content: '';
+  position: fixed;
+  top: 10vh;
+  left: -10%;
+  width: 120%;
+  height: 50vh;
+  background: radial-gradient(50% 40% at 50% 50%, rgba(186, 175, 78, 0.12) 0%, rgba(186, 175, 78, 0.04) 40%, transparent 70%);
+  opacity: 0.35;
+  z-index: -1;
+  pointer-events: none;
+}
+:is(.dark) body::after {
+  background: radial-gradient(50% 40% at 50% 50%, rgba(140, 120, 21, 0.1) 0%, rgba(140, 120, 21, 0.03) 45%, transparent 75%);
+  opacity: 0.4;
+}
+
+/* Accessibility: collapse animations and transitions for users who request
+   reduced motion (WCAG 2.3.3 / 2.2.2). The visualizer is JS-driven and can't be
+   stopped from CSS — but it only runs while the user has chosen to play. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

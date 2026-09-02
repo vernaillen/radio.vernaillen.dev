@@ -7,20 +7,27 @@
     "dev:pwa": "VITE_DEV_PWA=true nuxi dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "nuxt typecheck",
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
-    "@iconify-json/material-symbols": "^1.2.30",
-    "@nuxt/devtools": "2.6.2",
-    "@nuxt/ui": "^2.21.0",
-    "@pinia/nuxt": "^0.11.2",
+    "@nuxt/eslint": "^1.17.0",
+    "@nuxt/fonts": "^0.14.0",
     "@types/node": "^24.2.0",
     "@vite-pwa/nuxt": "^1.0.4",
-    "nuxt": "^4.0.3",
-    "pinia": "^3.0.3"
+    "eslint": "^10.8.1",
+    "nuxt": "^4.5.2",
+    "typescript": "^6.0.3",
+    "vue-tsc": "^3.3.10"
   },
   "dependencies": {
-    "vite-plugin-vue-audiomotion": "^1.0.5"
+    "@fft-visualizer/vue": "^1.0.0",
+    "@iconify-json/lucide": "^1.2.123",
+    "@nuxt/ui": "^4.10.0",
+    "@vueuse/nuxt": "^14.4.0",
+    "tailwindcss": "^4.3.3"
   },
   "packageManager": "pnpm@10.13.1"
 }

@@ -1,19 +1,22 @@
 <template>
   <div
     v-if="$pwa?.showInstallPrompt && !$pwa?.needRefresh"
-    class="fixed bottom-0 left-0 right-0 flex flex-col items-center justify-center p-4 bg-gray-500 dark:bg-opacity-50 shadow-xl z-50"
+    class="fixed inset-x-0 bottom-0 z-50 flex flex-wrap items-center justify-center gap-3 border-t border-default bg-elevated/90 p-4 shadow-xl backdrop-blur"
     v-bind="$attrs"
   >
-    <h2 class="mb-2">
-     Install Radio App?
-    </h2>
-    <div>
-      <UButton icon="i-material-symbols-install-desktop-rounded" class="mx-2" @click="$pwa.install()">
-        Install
-      </UButton>
-      <UButton variant="ghost" class="mx-2" @click="$pwa.cancelInstall()">
-        Dismiss
-      </UButton>
+    <span class="text-sm">Install the radio app?</span>
+    <div class="flex gap-2">
+      <UButton
+        icon="i-lucide-download"
+        label="Install"
+        @click="$pwa.install()"
+      />
+      <UButton
+        color="neutral"
+        variant="ghost"
+        label="Dismiss"
+        @click="$pwa.cancelInstall()"
+      />
     </div>
   </div>
 </template>

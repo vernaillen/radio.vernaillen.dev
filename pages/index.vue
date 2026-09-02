@@ -1,10 +1,9 @@
 <script setup lang="ts">
 definePageMeta({
-    colorMode: 'dark',
+  colorMode: 'dark'
 })
 </script>
+
 <template>
-    <div>
-        <DemoAnalyzer/>
-    </div>
+  <RadioPlayer />
 </template>
