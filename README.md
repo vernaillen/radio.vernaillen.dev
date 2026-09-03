@@ -5,7 +5,9 @@ spectrum visualizer. Built for my own use, but feel free to use it if you want.
 
 30 stations — Belgian public radio (Radio 1, StuBru, Urgent.fm, …), a handful of
 French and Austrian ones, and 9 SomaFM channels — picked from a grid of station
-tiles. Installable as a PWA.
+tiles. Filter chips above the grid (VRT, SomaFM, FIP, Rock, Chill, …) narrow it
+down to one network or mood, and the choice is remembered in localStorage.
+Installable as a PWA.
 
 ## Stack
 
@@ -51,7 +53,9 @@ Two things there are load-bearing and easy to break:
 `shared/channels.ts` is the single source of truth for the station list, shared
 by the browser UI and the proxy so both agree on what `?station=` means. Logos
 are hosted locally under `public/images/stations/` (28 of 30; the rest fall back
-to initials on the tile).
+to initials on the tile). It also carries each station's filter tags and the
+list of filter chips, so the tag union type is derived from that list and a typo
+fails `pnpm typecheck`.
 
 ## Development
 

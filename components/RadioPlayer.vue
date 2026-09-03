@@ -2,7 +2,7 @@
 import { FFTVisualizer } from '@fft-visualizer/vue'
 import '@fft-visualizer/vue/style.css'
 import { createRadioAudio } from './fftPlayer'
-import { channels, getChannel, stepChannel } from '#shared/channels'
+import { channelFilters, channels, getChannel, isChannelTag, stepChannel } from '#shared/channels'
 
 const BANDS = 80
 
@@ -12,6 +12,16 @@ const dataRight = ref<Uint8Array>(new Uint8Array(BANDS))
 
 const channelKey = ref('zenfm')
 const channel = computed(() => getChannel(channelKey.value) ?? channels[0]!)
+
+// Which filter chip is lit. Read from storage on mount rather than in setup so
+// the hydrating render matches the server's unfiltered grid, and only trusted
+// if it is still a known tag.
+const storedFilter = useLocalStorage('radio-filter', 'all', { initOnMounted: true })
+const filter = computed(() => isChannelTag(storedFilter.value) ? storedFilter.value : 'all')
+const visibleChannels = computed(() => {
+  const tag = filter.value
+  return tag === 'all' ? channels : channels.filter(item => item.tags.includes(tag))
+})
 
 const playing = ref(false)
 const pending = ref(false)
@@ -185,7 +195,8 @@ function selectChannel(value: string, autoplay = false) {
 }
 
 function step(delta: number) {
-  selectChannel(stepChannel(channelKey.value, delta).value)
+  const next = stepChannel(visibleChannels.value, channelKey.value, delta)
+  if (next) selectChannel(next.value)
 }
 
 // Every SomaFM logo already says "SomaFM" on it, so the prefix only eats room
@@ -359,9 +370,28 @@ onBeforeUnmount(stop)
       </div>
     </div>
 
+    <div class="flex flex-wrap gap-1.5">
+      <UButton
+        label="All"
+        size="xs"
+        :color="filter === 'all' ? 'primary' : 'neutral'"
+        :variant="filter === 'all' ? 'soft' : 'ghost'"
+        @click="storedFilter = 'all'"
+      />
+      <UButton
+        v-for="option in channelFilters"
+        :key="option.value"
+        :label="option.label"
+        size="xs"
+        :color="filter === option.value ? 'primary' : 'neutral'"
+        :variant="filter === option.value ? 'soft' : 'ghost'"
+        @click="storedFilter = option.value"
+      />
+    </div>
+
     <div class="grid grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12">
       <button
-        v-for="item in channels"
+        v-for="item in visibleChannels"
         :key="item.value"
         type="button"
         :aria-pressed="item.value === channelKey"

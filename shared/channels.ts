@@ -21,6 +21,29 @@ export interface RadioChannel {
   /** SomaFM station id, enabling the now-playing feed at
    *  https://somafm.com/songs/<id>.json (CORS-enabled). */
   soma?: string
+  /** Filter chips this station appears under; `[]` means only under "All". */
+  tags: ChannelTag[]
+}
+
+/** The filter chips above the station grid. `value` is persisted in
+ *  localStorage, so treat it as stable. */
+export const channelFilters = [
+  { label: 'VRT', value: 'vrt' },
+  { label: 'Other Belgian', value: 'belgian' },
+  { label: 'SomaFM', value: 'soma' },
+  { label: 'FIP', value: 'fip' },
+  { label: 'Rock', value: 'rock' },
+  { label: 'Grooves', value: 'grooves' },
+  { label: 'Chill', value: 'chill' },
+  { label: 'Electronic', value: 'electronic' },
+  { label: 'Reggae', value: 'reggae' }
+] as const
+
+export type ChannelTag = (typeof channelFilters)[number]['value']
+
+/** Persisted values outlive renames, so anything read back is checked. */
+export function isChannelTag(value: string): value is ChannelTag {
+  return channelFilters.some(filter => filter.value === value)
 }
 
 /** Served by /api/radio with no `?station=` — the contract the embedded player
@@ -32,49 +55,57 @@ export const channels: RadioChannel[] = [
     label: 'Radio 1',
     value: 'radio1',
     src: 'https://quantumcast.vrtcdn.be/radio1/mp3-128',
-    logo: '/images/stations/radio1.png'
+    logo: '/images/stations/radio1.png',
+    tags: ['vrt']
   },
   {
     label: 'Radio 1 Classics',
     value: 'radio1classics',
     src: 'https://quantumcast.vrtcdn.be/radio1_classics/mp3-128',
-    logo: '/images/stations/radio1classics.png'
+    logo: '/images/stations/radio1classics.png',
+    tags: ['vrt', 'rock']
   },
   {
     label: 'Radio 2 Oost-Vlaanderen',
     value: 'radio2',
     src: 'https://quantumcast.vrtcdn.be/ra2ovl/mp3-128',
-    logo: '/images/stations/radio2.jpg'
+    logo: '/images/stations/radio2.jpg',
+    tags: ['vrt']
   },
   {
     label: 'StuBru',
     value: 'stubru',
     src: 'https://quantumcast.vrtcdn.be/stubru/mp3-128',
-    logo: '/images/stations/stubru.png'
+    logo: '/images/stations/stubru.png',
+    tags: ['vrt']
   },
   {
     label: 'StuBru De Tijdloze',
     value: 'studbrutijdloze',
     src: 'https://quantumcast.vrtcdn.be/stubru_tijdloze/mp3-128',
-    logo: '/images/stations/studbrutijdloze.jpg'
+    logo: '/images/stations/studbrutijdloze.jpg',
+    tags: ['vrt', 'rock']
   },
   {
     label: 'StuBru UNTZ',
     value: 'stubruuntz',
     src: 'https://quantumcast.vrtcdn.be/stubru_untz/mp3-128',
-    logo: '/images/stations/stubruuntz.png'
+    logo: '/images/stations/stubruuntz.png',
+    tags: ['vrt', 'electronic']
   },
   {
     label: 'StuBru Vuurland',
     value: 'stubruvuurland',
     src: 'https://quantumcast.vrtcdn.be/stubru_tgs/mp3-128',
-    logo: '/images/stations/stubruvuurland.png'
+    logo: '/images/stations/stubruvuurland.png',
+    tags: ['vrt', 'rock']
   },
   {
     label: 'StuBru De Jaren Nul',
     value: 'stubrudejarennul',
     src: 'https://quantumcast.vrtcdn.be/stubru_dejarennul/mp3-128',
-    logo: '/images/stations/stubrudejarennul.jpg'
+    logo: '/images/stations/stubrudejarennul.jpg',
+    tags: ['vrt']
   },
   {
     // Plain HTTP on a non-standard port, which only works because the proxy
@@ -82,140 +113,162 @@ export const channels: RadioChannel[] = [
     label: 'Urgent.fm',
     value: 'urgentfm',
     src: 'http://urgentstream.radiostudio.be:8000/live',
-    logo: '/images/stations/urgentfm.png'
+    logo: '/images/stations/urgentfm.png',
+    tags: ['belgian', 'rock']
   },
   {
     label: 'Willy',
     value: 'willy',
     src: 'https://icecast-qmusicbe-cdp.triple-it.nl/willy.mp3',
-    logo: '/images/stations/willy.jpg'
+    logo: '/images/stations/willy.jpg',
+    tags: ['belgian', 'rock']
   },
   {
     label: 'ZenFM',
     value: 'zenfm',
     src: 'https://25553.live.streamtheworld.com/TOPZEN.mp3?dist=website?lsid=app:adbc632a-bb9c-46e3-b3dc-f4df5e2cb586',
-    logo: '/images/stations/zenfm.png'
+    logo: '/images/stations/zenfm.png',
+    tags: ['belgian', 'chill', 'grooves']
   },
   {
     label: 'BRUZZ',
     value: 'bruzz',
     src: 'https://i1.cdn.jetstre.am:8000/sz=fmbrussel=BRUZZ_HQ',
-    logo: '/images/stations/bruzz.png'
+    logo: '/images/stations/bruzz.png',
+    tags: ['belgian']
   },
   {
     label: 'ORF Radio FM4',
     value: 'orfmf4',
     src: 'https://orf-live.ors-shoutcast.at/fm4-q2a',
-    logo: '/images/stations/orfmf4.png'
+    logo: '/images/stations/orfmf4.png',
+    tags: ['rock']
   },
   {
     label: 'We House Tunein Radio',
     value: 'wehousetunein',
-    src: 'https://icecast9.play.cz/zun192.mp3'
+    src: 'https://icecast9.play.cz/zun192.mp3',
+    tags: ['electronic']
   },
   {
     label: 'SomaFM Groove Salad Classic',
     value: 'gsclassic',
     src: 'https://ice2.somafm.com/gsclassic-128-mp3',
     logo: '/images/stations/gsclassic.jpg',
-    soma: 'gsclassic'
+    soma: 'gsclassic',
+    tags: ['soma', 'grooves', 'chill']
   },
   {
     label: 'SomaFM Groove Salad',
     value: 'groovesalad',
     src: 'https://ice4.somafm.com/groovesalad-128-mp3',
     logo: '/images/stations/groovesalad.png',
-    soma: 'groovesalad'
+    soma: 'groovesalad',
+    tags: ['soma', 'grooves', 'chill']
   },
   {
     label: 'SomaFM Beat Blender',
     value: 'beatblender',
     src: 'https://ice2.somafm.com/beatblender-128-mp3',
     logo: '/images/stations/beatblender.png',
-    soma: 'beatblender'
+    soma: 'beatblender',
+    tags: ['soma', 'grooves', 'electronic']
   },
   {
     label: 'SomaFM Suburbs of Goa',
     value: 'suburbsofgoa',
     src: 'https://ice2.somafm.com/suburbsofgoa-128-mp3',
     logo: '/images/stations/suburbsofgoa.png',
-    soma: 'suburbsofgoa'
+    soma: 'suburbsofgoa',
+    tags: ['soma', 'chill', 'electronic']
   },
   {
     label: 'SomaFM The Trip',
     value: 'thetrip',
     src: 'https://ice2.somafm.com/thetrip-128-mp3',
     logo: '/images/stations/thetrip.jpg',
-    soma: 'thetrip'
+    soma: 'thetrip',
+    tags: ['soma', 'electronic']
   },
   {
     label: 'SomaFM Illinois Street Lounge',
     value: 'illinoisstreetlounge',
     src: 'https://ice6.somafm.com/illstreet-128-mp3',
     logo: '/images/stations/illinoisstreetlounge.jpg',
-    soma: 'illstreet'
+    soma: 'illstreet',
+    tags: ['soma', 'grooves']
   },
   {
     label: 'SomaFM Bossa Beyond',
     value: 'bossabeyond',
     src: 'https://ice2.somafm.com/bossa-128-mp3',
     logo: '/images/stations/bossabeyond.jpg',
-    soma: 'bossa'
+    soma: 'bossa',
+    tags: ['soma', 'grooves', 'chill']
   },
   {
     label: 'SomaFM Heavyweight Reggae',
     value: 'heavyweightreggae',
     src: 'https://ice2.somafm.com/reggae-128-mp3',
     logo: '/images/stations/heavyweightreggae.png',
-    soma: 'reggae'
+    soma: 'reggae',
+    tags: ['soma', 'reggae']
   },
   {
     label: 'SomaFM Lush',
     value: 'lush',
     src: 'https://ice2.somafm.com/lush-128-mp3',
     logo: '/images/stations/lush.png',
-    soma: 'lush'
+    soma: 'lush',
+    tags: ['soma', 'chill']
   },
   {
     label: 'FIP Groove',
     value: 'fipgroove',
     src: 'https://icecast.radiofrance.fr/fipgroove-midfi.mp3',
-    logo: '/images/stations/fipgroove.webp'
+    logo: '/images/stations/fipgroove.webp',
+    tags: ['fip', 'grooves']
   },
   {
     label: 'FIP Electro',
     value: 'fipelectro',
     src: 'https://icecast.radiofrance.fr/fipelectro-midfi.mp3',
-    logo: '/images/stations/fipelectro.webp'
+    logo: '/images/stations/fipelectro.webp',
+    tags: ['fip', 'electronic']
   },
   {
     label: 'FIP Reggae',
     value: 'fipreggae',
     src: 'https://icecast.radiofrance.fr/fipreggae-midfi.mp3',
-    logo: '/images/stations/fipreggae.webp'
+    logo: '/images/stations/fipreggae.webp',
+    tags: ['fip', 'reggae']
   },
   {
     label: 'FIP Cultes',
     value: 'fipcultes',
     src: 'https://icecast.radiofrance.fr/fipcultes-midfi.mp3',
-    logo: '/images/stations/fipcultes.webp'
+    logo: '/images/stations/fipcultes.webp',
+    tags: ['fip']
   },
   {
     label: 'Mouv\'',
     value: 'mouv',
     src: 'https://icecast.radiofrance.fr/mouv-midfi.mp3',
-    logo: '/images/stations/mouv.webp'
+    logo: '/images/stations/mouv.webp',
+    tags: []
   },
   {
     label: 'Perfect New Age',
     value: 'perfectnewage',
-    src: 'https://n0e.radiojar.com/cxases7nabuvv?rj-ttl=5&rj-tok=AAABlCgq1YsANP3-MA3oVuyLjw'
+    src: 'https://n0e.radiojar.com/cxases7nabuvv?rj-ttl=5&rj-tok=AAABlCgq1YsANP3-MA3oVuyLjw',
+    tags: ['chill']
   },
   {
     label: 'Zen Garden - My Noise',
     value: 'zengardenmynoise',
     src: 'https://zengarden-mynoise.radioca.st/stream',
-    logo: '/images/stations/zengardenmynoise.png'
+    logo: '/images/stations/zengardenmynoise.png',
+    tags: ['chill']
   }
 ]
 
@@ -223,9 +276,13 @@ export function getChannel(value: string): RadioChannel | undefined {
   return channels.find(channel => channel.value === value)
 }
 
-/** Wraps around at both ends so the skip buttons never dead-end. */
-export function stepChannel(value: string, delta: number): RadioChannel {
-  const index = channels.findIndex(channel => channel.value === value)
-  const next = (index + delta + channels.length) % channels.length
-  return channels[next]!
+/** Steps through `list` (the visible grid, not necessarily every station),
+ *  wrapping at both ends. A `value` that isn't in the list — the armed
+ *  station was just filtered out — lands on the first or last entry
+ *  depending on direction. */
+export function stepChannel(list: readonly RadioChannel[], value: string, delta: number): RadioChannel | undefined {
+  if (list.length === 0) return undefined
+  const index = list.findIndex(channel => channel.value === value)
+  if (index === -1) return delta > 0 ? list[0] : list[list.length - 1]
+  return list[(index + delta + list.length) % list.length]
 }
