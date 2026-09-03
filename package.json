@@ -10,6 +10,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "typecheck": "nuxt typecheck",
+    "check": "nuxt prepare && pnpm run lint && pnpm run typecheck && pnpm run build",
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
