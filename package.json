@@ -16,8 +16,8 @@
   "devDependencies": {
     "@nuxt/eslint": "^1.17.0",
     "@nuxt/fonts": "^0.14.0",
-    "@types/node": "^24.2.0",
-    "@vite-pwa/nuxt": "^1.0.4",
+    "@types/node": "^26.4.1",
+    "@vite-pwa/nuxt": "^1.1.1",
     "eslint": "^10.8.1",
     "nuxt": "^4.5.2",
     "typescript": "^6.0.3",

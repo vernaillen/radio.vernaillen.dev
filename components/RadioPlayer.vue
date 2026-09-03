@@ -263,20 +263,7 @@ onBeforeUnmount(stop)
 </script>
 
 <template>
-  <div class="flex min-h-screen w-full flex-col gap-6 px-4 py-8 sm:px-6 sm:py-12">
-    <header class="flex items-baseline justify-between gap-4">
-      <h1 class="font-heading text-lg sm:text-xl">
-        radio<span class="text-vernaillen-500">.</span>vernaillen<span class="text-vernaillen-500">.</span>dev
-      </h1>
-      <ULink
-        to="https://vernaillen.dev"
-        target="_blank"
-        class="text-xs text-muted hover:text-default"
-      >
-        vernaillen.dev
-      </ULink>
-    </header>
-
+  <div class="flex min-h-screen w-full flex-col gap-6 px-4 py-2 sm:px-6 sm:py-4">
     <!--
       Full width, but the aspect ratio is capped: 378px is what 16/7 worked out
       to at the old max-w-4xl, and letting it grow with the viewport would push
@@ -318,16 +305,29 @@ onBeforeUnmount(stop)
       </div>
     </div>
 
-    <div class="flex flex-wrap gap-1.5">
-      <UButton
-        v-for="(preset, i) in presets"
-        :key="preset.name"
-        :label="preset.name"
-        size="xs"
-        :color="i === active ? 'primary' : 'neutral'"
-        :variant="i === active ? 'soft' : 'ghost'"
-        @click="active = i"
-      />
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-1.5">
+      <p class="text-md">
+        <span
+          v-if="error"
+          class="text-error"
+        >{{ error }}</span>
+        <template v-else>
+          <span v-if="nowPlaying" class="mr-4">♫ {{ nowPlaying }}</span>
+          <span><UIcon name="i-lucide-radio" class="size-5 inline-flex -mb-1" /> {{ channel.label }}</span>
+          <span v-if="channel.hls"> · HLS stream: it plays, but the visualizer can't read it</span>
+        </template>
+      </p>
+      <div class="ml-auto flex flex-wrap gap-1.5">
+        <UButton
+          v-for="(preset, i) in presets"
+          :key="preset.name"
+          :label="preset.name"
+          size="xs"
+          :color="i === active ? 'primary' : 'neutral'"
+          :variant="i === active ? 'soft' : 'ghost'"
+          @click="active = i"
+        />
+      </div>
     </div>
 
     <div class="flex flex-wrap items-center gap-3">
@@ -429,17 +429,5 @@ onBeforeUnmount(stop)
         >{{ tileLabel(item.label) }}</span>
       </button>
     </div>
-
-    <p class="text-xs text-muted">
-      <span
-        v-if="error"
-        class="text-error"
-      >{{ error }}</span>
-      <template v-else>
-        <span v-if="nowPlaying">♫ {{ nowPlaying }} · </span>
-        <span>{{ channel.label }}</span>
-        <span v-if="channel.hls"> · HLS stream: it plays, but the visualizer can't read it</span>
-      </template>
-    </p>
   </div>
 </template>
