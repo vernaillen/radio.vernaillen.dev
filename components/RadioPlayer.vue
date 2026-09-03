@@ -91,7 +91,7 @@ const presets: { name: string, props: VizProps }[] = [
   }
 ]
 
-const active = ref(0)
+const active = ref(presets.findIndex(preset => preset.name === 'Reflected'))
 const activeProps = computed(() => presets[active.value]!.props)
 
 // Screens sleep on their own while music plays; the visualizer is the point of
