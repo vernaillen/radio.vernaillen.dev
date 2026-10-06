@@ -16,19 +16,19 @@
   "devDependencies": {
     "@nuxt/eslint": "^1.17.0",
     "@nuxt/fonts": "^0.14.0",
-    "@types/node": "^26.4.1",
+    "@types/node": "^26.6.4",
     "@vite-pwa/nuxt": "^1.1.1",
-    "eslint": "^10.8.1",
+    "eslint": "^10.12.0",
     "nuxt": "^4.5.2",
     "typescript": "^6.0.3",
-    "vue-tsc": "^3.3.10"
+    "vue-tsc": "^3.3.12"
   },
   "dependencies": {
     "@fft-visualizer/vue": "^1.0.0",
-    "@iconify-json/lucide": "^1.2.123",
-    "@nuxt/ui": "^4.10.0",
-    "@vueuse/nuxt": "^14.4.0",
+    "@iconify-json/lucide": "^1.2.139",
+    "@nuxt/ui": "^4.11.3",
+    "@vueuse/nuxt": "^15.0.0",
     "tailwindcss": "^4.3.3"
   },
-  "packageManager": "pnpm@10.13.1"
+  "packageManager": "pnpm@12.9.1"
 }
