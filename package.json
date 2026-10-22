@@ -15,20 +15,20 @@
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.17.0",
-    "@nuxt/fonts": "^0.14.0",
-    "@types/node": "^26.6.4",
+    "@nuxt/fonts": "^1.0.1",
+    "@types/node": "^26.6.5",
     "@vite-pwa/nuxt": "^1.1.1",
-    "eslint": "^10.12.0",
-    "nuxt": "^4.6.0",
+    "eslint": "^10.13.0",
+    "nuxt": "^4.6.2",
     "typescript": "^6.0.3",
-    "vue-tsc": "^3.3.12"
+    "vue-tsc": "^3.3.13"
   },
   "dependencies": {
     "@fft-visualizer/vue": "^1.0.0",
-    "@iconify-json/lucide": "^1.2.139",
-    "@nuxt/ui": "^4.11.3",
+    "@iconify-json/lucide": "^1.2.147",
+    "@nuxt/ui": "^4.12.0",
     "@vueuse/nuxt": "^15.0.0",
     "tailwindcss": "^4.3.3"
   },
-  "packageManager": "pnpm@12.9.1"
+  "packageManager": "pnpm@12.14.0"
 }
